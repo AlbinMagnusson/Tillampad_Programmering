@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Main_script.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Castle.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Research interface.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/City map.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Structure_scene.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/MainPlayer.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -9,7 +14,10 @@ script = ExtResource( 1 )
 wait_time = 60.0
 autostart = true
 
-[node name="Research menu" type="Button" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Research menu" type="Button" parent="HUD"]
 margin_left = 862.0
 margin_top = 8.0
 margin_right = 1026.0
@@ -17,7 +25,20 @@ margin_bottom = 68.0
 toggle_mode = true
 text = "Open research menu"
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="Research interface" parent="HUD/Research menu" instance=ExtResource( 3 )]
+margin_left = -862.0
+margin_top = -8.0
+margin_right = -862.0
+margin_bottom = -8.0
+
+[node name="Castle" parent="." instance=ExtResource( 2 )]
+position = Vector2( 862, 8 )
+
+[node name="City map" parent="." instance=ExtResource( 4 )]
+
+[node name="MainPlayer" parent="." instance=ExtResource( 6 )]
+
+[node name="Structure_scene" parent="." instance=ExtResource( 5 )]
 
 [connection signal="timeout" from="Time" to="." method="_on_Time_timeout"]
-[connection signal="toggled" from="Research menu" to="." method="_on_Research_menu_toggled"]
+[connection signal="toggled" from="HUD/Research menu" to="HUD/Research menu/Research interface" method="_on_Research_menu_toggled"]

@@ -1,13 +1,16 @@
 extends Node2D
 
-# ck3 convertability
-var development = 0
+
 
 # State-stats:
 var gold = 50
 var notoriety = 0
 var glory = 0
 var reputation = notoriety + glory
+var development = 0
+
+var state_stats = {gold:50, notoriety:0, glory:0, reputation:0, 
+development:0}
 
 # Production:
 var lumber = 0
@@ -19,14 +22,21 @@ var brick = 0
 var grapes = 0
 var water = 0
 
+var reasources = {"lumber":0, "stone":0, "wheat":0, "meat":0, 
+"barrley":0, "grapes":0, "water":0}
+
 # Secondary production:
 var planks = 0
 var beer = 0
 var wine = 0
 
+var secondary_production = {"planks":0, "beer":0, "whine":0,
+"brick":0}
 
 # Personal-stats
 var age = 18
+
+var character_stats = {"age":0}
 
 # Daily change stats:
 var income = {"gold":1, "notoriety":0.1, "glory":0.1}
@@ -91,6 +101,5 @@ func level_up():
 
 
 func _on_Research_menu_toggled(button_pressed):
-	var research_menu = load("res://Scenes/Research interface.tscn")
-	add_child(research_menu)
+	pass
 
