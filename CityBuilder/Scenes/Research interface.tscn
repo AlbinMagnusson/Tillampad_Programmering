@@ -1,8 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Images and fonts/playfair-display-font/PlayfairDisplayBlackItalic-K7d4y.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Scenes/Research interface.gd" type="Script" id=2]
-[ext_resource path="res://Images/table.png" type="Texture" id=3]
 [ext_resource path="res://Images/parchment.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
@@ -19,12 +17,6 @@ bg_color = Color( 1, 1, 1, 1 )
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
-
-[node name="Table" type="Sprite" parent="."]
-position = Vector2( 555, 520 )
-scale = Vector2( 12, 12 )
-texture = ExtResource( 3 )
 
 [node name="Parchment" type="Sprite" parent="."]
 position = Vector2( 516, 303 )

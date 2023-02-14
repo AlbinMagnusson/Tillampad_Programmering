@@ -11,15 +11,19 @@ var unlocked_buildings = [house]
 var mouse_on_map = false
 
 func _ready():
-	pass # Replace with function body.
+	pass
+	# if mouse_on_map and 
 
 func _spawn_structure():
-	for i in range(unlocked_buildings.len()):
-		if not unlocked_buildings[i]:
-			
-			unlocked_buildings[i] = true
-		else:
-			pass
+	pass
 
 func _on_Area2D_mouse_entered():
 	mouse_on_map = true
+
+func _on_MapArea_mouse_exited():
+	mouse_on_map = false
+
+
+func _on_tavern_toggled(button_pressed):
+	while get_node("Tavern").position != global_position:
+		get_node("Tavern").position
