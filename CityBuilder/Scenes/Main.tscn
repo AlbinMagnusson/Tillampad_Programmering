@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Main_script.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Castle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Research interface.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/City map.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Tavern.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Structure_scene.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/MainPlayer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=7]
@@ -11,8 +11,26 @@
 [ext_resource path="res://Scripts/Research menu.gd" type="Script" id=9]
 [ext_resource path="res://Scripts/Construction menu button.gd" type="Script" id=10]
 [ext_resource path="res://Images/parchment.png" type="Texture" id=11]
-[ext_resource path="res://Scenes/Research interface.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/Research interface.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/reasearch_progress.gd" type="Script" id=13]
+[ext_resource path="res://Images/Structure_textures/Tavern.png" type="Texture" id=14]
+[ext_resource path="res://Images/map.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/City map.gd" type="Script" id=16]
+[ext_resource path="res://Scripts/Control.gd" type="Script" id=17]
+[ext_resource path="res://Scripts/KinematicBody2D.gd" type="Script" id=18]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 14 )
+region_rect = Rect2( 0, 0, 1000, 1000 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 14 )
+region_rect = Rect2( 0, 0, 1000, 1000 )
+modulate_color = Color( 0, 1, 0.27451, 1 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 14 )
+region_rect = Rect2( 0, 0, 1000, 1000 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -24,11 +42,7 @@ script = ExtResource( 7 )
 position = Vector2( 862, 8 )
 
 [node name="Research interface" parent="HUD" instance=ExtResource( 3 )]
-visible = true
-margin_left = -11.0
-margin_right = -11.0
-
-[node name="City map" parent="HUD" instance=ExtResource( 4 )]
+script = ExtResource( 12 )
 
 [node name="Research menu" type="Button" parent="HUD"]
 margin_left = 851.0
@@ -57,45 +71,242 @@ visible = false
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 12 )
+script = ExtResource( 17 )
 
 [node name="Parchment" type="Sprite" parent="HUD/Control"]
-position = Vector2( 540, 318 )
+position = Vector2( 512, 318 )
 texture = ExtResource( 11 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 900, 400 )
 
-[node name="Startstop reasearch" type="Button" parent="HUD/Control"]
-margin_left = 467.0
+[node name="Startstop research" type="Button" parent="HUD/Control"]
+margin_left = 432.0
 margin_top = 246.0
-margin_right = 626.0
+margin_right = 591.0
 margin_bottom = 266.0
 toggle_mode = true
-text = "Start/stop reasearching"
+text = "Start researching"
 
-[node name="reasearch_progress" type="ProgressBar" parent="HUD/Control"]
-margin_left = 345.0
+[node name="research_progress" type="ProgressBar" parent="HUD/Control"]
+margin_left = 316.0
 margin_top = 338.0
-margin_right = 736.0
+margin_right = 707.0
 margin_bottom = 425.0
 script = ExtResource( 13 )
 
+[node name="Speed toggle" type="Button" parent="HUD"]
+margin_left = 458.0
+margin_top = 8.0
+margin_right = 566.001
+margin_bottom = 28.0
+grow_horizontal = 2
+text = "Toggle speed 1"
+
 [node name="Table" type="Sprite" parent="."]
-position = Vector2( 504, 355 )
+position = Vector2( 512, 329 )
 scale = Vector2( 11, 11 )
 texture = ExtResource( 8 )
 
 [node name="Time" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 2.5
 autostart = true
 
+[node name="City map" type="Node2D" parent="."]
+script = ExtResource( 16 )
+
+[node name="Map" type="Sprite" parent="City map"]
+position = Vector2( 512, 278 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 15 )
+
+[node name="Construction menu" type="Node2D" parent="City map"]
+visible = false
+
+[node name="Parchment" type="Sprite" parent="City map/Construction menu"]
+position = Vector2( 947, 300 )
+rotation = 1.5708
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 541.778, 85.41, 600, 154 )
+
+[node name="Tavern" type="Sprite" parent="City map/Construction menu"]
+visible = false
+position = Vector2( 905.026, 34.9 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 14 )
+script = ExtResource( 4 )
+
+[node name="GridContainer2" type="GridContainer" parent="City map/Construction menu"]
+margin_left = 888.0
+margin_top = 2.5
+margin_right = 1006.0
+margin_bottom = 602.5
+rect_min_size = Vector2( 50, 50 )
+custom_constants/vseparation = 18
+custom_constants/hseparation = 18
+columns = 2
+
+[node name="tavern" type="Button" parent="City map/Construction menu/GridContainer2"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+toggle_mode = true
+
+[node name="Button2" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_right = 118.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button3" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 68.0
+margin_right = 50.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button4" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 68.0
+margin_right = 118.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button5" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 136.0
+margin_right = 50.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button6" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 136.0
+margin_right = 118.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button7" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 204.0
+margin_right = 50.0
+margin_bottom = 254.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button8" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 204.0
+margin_right = 118.0
+margin_bottom = 254.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button9" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 272.0
+margin_right = 50.0
+margin_bottom = 322.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button10" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 272.0
+margin_right = 118.0
+margin_bottom = 322.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button11" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 340.0
+margin_right = 50.0
+margin_bottom = 390.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button12" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 340.0
+margin_right = 118.0
+margin_bottom = 390.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button13" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 408.0
+margin_right = 50.0
+margin_bottom = 458.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button14" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 408.0
+margin_right = 118.0
+margin_bottom = 458.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button15" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 476.0
+margin_right = 50.0
+margin_bottom = 526.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button16" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 476.0
+margin_right = 118.0
+margin_bottom = 526.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button17" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_top = 544.0
+margin_right = 50.0
+margin_bottom = 594.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="Button18" type="Button" parent="City map/Construction menu/GridContainer2"]
+visible = false
+margin_left = 68.0
+margin_top = 544.0
+margin_right = 118.0
+margin_bottom = 594.0
+rect_min_size = Vector2( 50, 50 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="City map/Construction menu"]
+script = ExtResource( 18 )
+
+[node name="MapArea" type="Area2D" parent="City map"]
+position = Vector2( 369, 192 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="City map/MapArea"]
+position = Vector2( -23, 15 )
+polygon = PoolVector2Array( -128, -141, 466, -138, 512, 219, 407, 220, 411, 332, -160, 336 )
+
+[node name="Sprite" type="Sprite" parent="City map"]
+
+[connection signal="Research_increased" from="." to="HUD/Control" method="_on_Main_Research_increased"]
 [connection signal="toggled" from="HUD/Research menu" to="HUD" method="_on_Research_menu_toggled"]
 [connection signal="toggled" from="HUD/Research menu" to="HUD/Research interface" method="_on_Research_menu_toggled"]
-[connection signal="toggled" from="HUD/Research menu" to="HUD/City map" method="_on_Research_menu_toggled"]
 [connection signal="toggled" from="HUD/Research menu" to="HUD/Construction menu" method="_on_Research_menu_toggled"]
 [connection signal="toggled" from="HUD/Research menu" to="HUD/Control" method="_on_Research_menu_toggled"]
-[connection signal="toggled" from="HUD/Construction menu" to="HUD/City map" method="_on_Construction_menu_toggled"]
 [connection signal="toggled" from="HUD/Construction menu" to="HUD/Research menu" method="_on_Construction_menu_toggled"]
-[connection signal="toggled" from="HUD/Control/Startstop reasearch" to="." method="_on_Startstop_reasearch_toggled"]
-[connection signal="toggled" from="HUD/Control/Startstop reasearch" to="HUD/Control" method="_on_Startstop_reasearch_toggled"]
+[connection signal="toggled" from="HUD/Construction menu" to="City map" method="_on_Construction_menu_toggled"]
+[connection signal="toggled" from="HUD/Control/Startstop research" to="." method="_on_Startstop_reasearch_toggled"]
+[connection signal="toggled" from="HUD/Control/Startstop research" to="HUD/Control" method="_on_Startstop_reasearch_toggled"]
+[connection signal="toggled" from="HUD/Control/Startstop research" to="HUD/Control" method="_on_Startstop_research_toggled"]
+[connection signal="button_up" from="HUD/Speed toggle" to="." method="_on_Speed_toggle_button_up"]
 [connection signal="timeout" from="Time" to="." method="_on_Time_timeout"]
+[connection signal="timeout" from="Time" to="City map" method="_on_Time_timeout"]
+[connection signal="tavern_toggled" from="City map" to="." method="_on_City_map_tavern_toggled"]
+[connection signal="tavern_toggled" from="City map" to="City map/Construction menu/KinematicBody2D" method="_on_City_map_tavern_toggled"]
+[connection signal="toggled" from="City map/Construction menu/GridContainer2/tavern" to="City map" method="_on_tavern_toggled"]

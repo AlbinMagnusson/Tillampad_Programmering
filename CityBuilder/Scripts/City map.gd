@@ -3,9 +3,11 @@ extends Node2D
 var option_spawned = false
 
 var velocity := 500
-var direction := Vector2.LEFT
+
+signal tavern_toggled
 
 var map_entered = false
+var tavern = false
 
 func _ready():
 	pass # Replace with function body.
@@ -46,3 +48,40 @@ func _on_Construction_menu_toggled(button_pressed):
 		get_node("Construction menu").visible = false
 	else:
 		get_node("Construction menu").visible = true
+
+# var mouse_position = get_global_mouse_position()
+var place_tavern
+
+func _move_toward_mouse():
+	pass
+	# direction_to_mouse = mouse_position - 
+"""
+	else:
+		direction_to_player = player.global_position - global_position
+		var desired_velocity = direction_to_player.normalized() * MAX_VELOCITY
+		velocity = velocity.move_toward(desired_velocity, ACCELERATION * delta)
+		
+		velocity = move_and_slide(velocity)
+"""
+		
+var Building = "res://Scenes/Buildings.tscn"
+
+
+
+func _on_MapArea_mouse_entered():
+	map_entered = true
+
+func _on_MapArea_mouse_exited():
+	map_entered = false
+
+
+func _on_tavern_toggled(button_pressed):
+	if $"Construction menu/Tavern".visible:
+		$"Construction menu/Tavern".visible = false
+		emit_signal("tavern_toggled")
+	else:
+		$"Construction menu/Tavern".visible = true
+		emit_signal("tavern_toggled")
+	print($"Construction menu/Tavern".visible)
+
+

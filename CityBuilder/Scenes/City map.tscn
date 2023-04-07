@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Images/map.png" type="Texture" id=1]
 [ext_resource path="res://Images/parchment.png" type="Texture" id=3]
 [ext_resource path="res://Images/Structure_textures/Tavern.png" type="Texture" id=6]
-[ext_resource path="res://Scripts/City map.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Construction menu.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxTexture" id=3]
@@ -20,7 +19,6 @@ texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 1000, 1000 )
 
 [node name="City map" type="Node2D"]
-script = ExtResource( 7 )
 
 [node name="Map" type="Sprite" parent="."]
 position = Vector2( 512, 278 )
@@ -39,7 +37,6 @@ region_enabled = true
 region_rect = Rect2( 541.778, 85.41, 600, 154 )
 
 [node name="Tavern" type="Sprite" parent="Construction menu"]
-position = Vector2( 913.002, 27.918 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 6 )
 
@@ -181,6 +178,6 @@ polygon = PoolVector2Array( -128, -141, 466, -138, 512, 219, 407, 220, 411, 332,
 
 [node name="Sprite" type="Sprite" parent="."]
 
-[connection signal="toggled" from="Construction menu/GridContainer2/tavern" to="Construction menu" method="_on_tavern_toggled"]
-[connection signal="mouse_entered" from="MapArea" to="Construction menu" method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="MapArea" to="Construction menu" method="_on_MapArea_mouse_exited"]
+[connection signal="toggled" from="Construction menu/GridContainer2/tavern" to="." method="_on_tavern_toggled"]
+[connection signal="mouse_entered" from="MapArea" to="." method="_on_MapArea_mouse_entered"]
+[connection signal="mouse_exited" from="MapArea" to="." method="_on_MapArea_mouse_exited"]
